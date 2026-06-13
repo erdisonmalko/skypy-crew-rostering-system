@@ -1,51 +1,51 @@
-crew_id,name,home_base,max_range_miles,role,hourly_cost
-C001,Sara Andersen,FRA,1000,FirstOfficer,86.9
-C002,Fatima Novak,LHR,2500,Captain,87.0
-C003,Arjan Muller,JFK,5000,FirstOfficer,106.7
-C004,Nikos Dupont,AMS,1000,Captain,129.6
-C005,Sara Novak,CDG,5000,FirstOfficer,116.8
-C006,Luca Costa,FCO,2500,Captain,87.5
-C007,James Rossi,VIE,2500,FirstOfficer,77.3
-C008,Pedro Novak,TIA,1000,Captain,120.2
-C009,David Klein,FRA,5000,FirstOfficer,75.1
-C010,Nikos Smith,LHR,2500,Captain,112.3
-C011,Pedro Costa,JFK,5000,FirstOfficer,127.7
-C012,Elena Rossi,AMS,2500,Captain,131.5
-C013,Fatima Smith,CDG,2500,FirstOfficer,104.8
-C014,Arjan Costa,FCO,5000,Captain,140.1
-C015,Maria Okafor,VIE,1000,FirstOfficer,110.6
-C016,Nikos Klein,TIA,2500,Captain,137.3
-C017,Luca Costa,FRA,1000,FirstOfficer,82.2
-C018,Sara Santos,LHR,5000,Captain,143.5
-C019,Elena Dupont,JFK,2500,FirstOfficer,71.6
-C020,Sara Rossi,AMS,1000,Captain,74.6
-C021,Maria Costa,CDG,1000,FirstOfficer,128.6
-C022,Fatima Costa,FCO,1000,Captain,80.3
-C023,Sara Novak,VIE,1000,FirstOfficer,91.2
-C024,Anna Andersen,TIA,1000,Captain,144.3
-C025,David Okafor,FRA,1000,FirstOfficer,127.0
-C026,Nikos Berg,LHR,5000,Captain,99.9
-C027,Maria Santos,JFK,1000,FirstOfficer,89.8
-C028,Sophie Klein,AMS,1000,Captain,117.1
-C029,Anna Okafor,CDG,1000,FirstOfficer,70.6
-C030,James Santos,FCO,1000,Captain,88.3
-C031,Arjan Okafor,VIE,1000,FirstOfficer,111.1
-C032,Luca Andersen,TIA,2500,Captain,87.1
-C033,Sophie Berg,FRA,5000,FirstOfficer,116.1
-C034,Maria Okafor,LHR,2500,Captain,85.2
-C035,David Berg,JFK,2500,FirstOfficer,98.3
-C036,Pedro Okafor,AMS,5000,Captain,74.3
-C037,Anna Santos,CDG,1000,FirstOfficer,74.8
-C038,Sophie Costa,FCO,1000,Captain,89.9
-C039,Luca Dupont,VIE,2500,FirstOfficer,81.2
-C040,Maria Berg,TIA,2500,Captain,90.0
-C041,Pedro Costa,FRA,5000,FirstOfficer,77.8
-C042,Sophie Muller,LHR,1000,Captain,147.5
-C043,Sophie Novak,JFK,2500,FirstOfficer,108.9
-C044,James Novak,AMS,1000,Captain,83.2
-C045,Fatima Dupont,CDG,2500,FirstOfficer,144.1
-C046,Anna Costa,FCO,2500,Captain,125.7
-C047,Luca Patel,VIE,5000,FirstOfficer,127.5
-C048,James Klein,TIA,2500,Captain,87.4
-C049,Anna Santos,FRA,5000,FirstOfficer,113.4
-C050,Fatima Costa,LHR,1000,Captain,74.0
+crew_id,home_base,max_range_miles,role,hourly_cost
+C001,FRA,1000,FirstOfficer,86.9
+C002,LHR,2500,Captain,87.0
+C003,JFK,5000,FirstOfficer,106.7
+C004,AMS,1000,Captain,129.6
+C005,CDG,5000,FirstOfficer,116.8
+C006,FCO,2500,Captain,87.5
+C007,VIE,2500,FirstOfficer,77.3
+C008,TIA,1000,Captain,120.2
+C009,FRA,5000,FirstOfficer,75.1
+C010,LHR,2500,Captain,112.3
+C011,JFK,5000,FirstOfficer,127.7
+C012,AMS,2500,Captain,131.5
+C013,CDG,2500,FirstOfficer,104.8
+C014,FCO,5000,Captain,140.1
+C015,VIE,1000,FirstOfficer,110.6
+C016,TIA,2500,Captain,137.3
+C017,FRA,1000,FirstOfficer,82.2
+C018,LHR,5000,Captain,143.5
+C019,JFK,2500,FirstOfficer,71.6
+C020,AMS,1000,Captain,74.6
+C021,CDG,1000,FirstOfficer,128.6
+C022,FCO,1000,Captain,80.3
+C023,VIE,1000,FirstOfficer,91.2
+C024,TIA,1000,Captain,144.3
+C025,FRA,1000,FirstOfficer,127.0
+C026,LHR,5000,Captain,99.9
+C027,JFK,1000,FirstOfficer,89.8
+C028,AMS,1000,Captain,117.1
+C029,CDG,1000,FirstOfficer,70.6
+C030,FCO,1000,Captain,88.3
+C031,VIE,1000,FirstOfficer,111.1
+C032,TIA,2500,Captain,87.1
+C033,FRA,5000,FirstOfficer,116.1
+C034,LHR,2500,Captain,85.2
+C035,JFK,2500,FirstOfficer,98.3
+C036,AMS,5000,Captain,74.3
+C037,CDG,1000,FirstOfficer,74.8
+C038,FCO,1000,Captain,89.9
+C039,VIE,2500,FirstOfficer,81.2
+C040,TIA,2500,Captain,90.0
+C041,FRA,5000,FirstOfficer,77.8
+C042,LHR,1000,Captain,147.5
+C043,JFK,2500,FirstOfficer,108.9
+C044,AMS,1000,Captain,83.2
+C045,CDG,2500,FirstOfficer,144.1
+C046,FCO,2500,Captain,125.7
+C047,VIE,5000,FirstOfficer,127.5
+C048,TIA,2500,Captain,87.4
+C049,FRA,5000,FirstOfficer,113.4
+C050,LHR,1000,Captain,74.0
