@@ -1,0 +1,161 @@
+from __future__ import annotations
+
+import csv
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+
+
+DATETIME_FMT = "%Y-%m-%d %H:%M"
+VALID_ROLES = {"Captain", "FirstOfficer"}
+VALID_PRIORITIES = {1, 2, 3}
+
+
+# ---------------------------------------------------------------------------
+# Flight
+# ---------------------------------------------------------------------------
+
+@dataclass
+class Flight:
+    flight_id: str
+    departure: datetime
+    arrival: datetime
+    origin: str
+    destination: str
+    distance_miles: int
+    priority: int
+
+    def __post_init__(self) -> None:
+        if self.arrival <= self.departure:
+            raise ValueError(
+                f"Flight {self.flight_id}: arrival must be after departure "
+                f"({self.departure} → {self.arrival})"
+            )
+        if not isinstance(self.distance_miles, int) or self.distance_miles <= 0:
+            raise ValueError(
+                f"Flight {self.flight_id}: distance_miles must be a positive integer, "
+                f"got {self.distance_miles!r}"
+            )
+        if self.priority not in VALID_PRIORITIES:
+            raise ValueError(
+                f"Flight {self.flight_id}: priority must be 1, 2, or 3, "
+                f"got {self.priority!r}"
+            )
+
+    @property
+    def duration_minutes(self) -> int:
+        """Total flight duration in whole minutes."""
+        return int((self.arrival - self.departure).total_seconds() // 60)
+
+    @classmethod
+    def from_row(cls, row: dict[str, str]) -> Flight:
+        return cls(
+            flight_id=row["flight_id"].strip(),
+            departure=datetime.strptime(row["departure"].strip(), DATETIME_FMT),
+            arrival=datetime.strptime(row["arrival"].strip(), DATETIME_FMT),
+            origin=row["origin"].strip(),
+            destination=row["destination"].strip(),
+            distance_miles=int(row["distance_miles"].strip()),
+            priority=int(row["priority"].strip()),
+        )
+
+    @classmethod
+    def load_csv(cls, path: str | Path) -> dict[str, Flight]:
+        """Load all flights from a CSV file. Returns {flight_id: Flight}."""
+        flights: dict[str, Flight] = {}
+        with open(path, newline="", encoding="utf-8") as fh:
+            for i, row in enumerate(csv.DictReader(fh), start=2):
+                try:
+                    f = cls.from_row(row)
+                except (ValueError, KeyError) as exc:
+                    raise ValueError(f"flights CSV row {i}: {exc}") from exc
+                flights[f.flight_id] = f
+        return flights
+
+
+# ---------------------------------------------------------------------------
+# Crew
+# ---------------------------------------------------------------------------
+
+@dataclass
+class Crew:
+    crew_id: str
+    name: str
+    role: str
+    hourly_cost: float
+
+    def __post_init__(self) -> None:
+        if self.role not in VALID_ROLES:
+            raise ValueError(
+                f"Crew {self.crew_id}: role must be 'Captain' or 'FirstOfficer', "
+                f"got {self.role!r}"
+            )
+        if not isinstance(self.hourly_cost, (int, float)) or self.hourly_cost <= 0:
+            raise ValueError(
+                f"Crew {self.crew_id}: hourly_cost must be a positive float, "
+                f"got {self.hourly_cost!r}"
+            )
+
+    @classmethod
+    def from_row(cls, row: dict[str, str]) -> Crew:
+        return cls(
+            crew_id=row["crew_id"].strip(),
+            name=row["name"].strip(),
+            role=row["role"].strip(),
+            hourly_cost=float(row["hourly_cost"].strip()),
+        )
+
+    @classmethod
+    def load_csv(cls, path: str | Path) -> dict[str, Crew]:
+        """Load all crew members from a CSV file. Returns {crew_id: Crew}."""
+        crew: dict[str, Crew] = {}
+        with open(path, newline="", encoding="utf-8") as fh:
+            for i, row in enumerate(csv.DictReader(fh), start=2):
+                try:
+                    c = cls.from_row(row)
+                except (ValueError, KeyError) as exc:
+                    raise ValueError(f"crew CSV row {i}: {exc}") from exc
+                crew[c.crew_id] = c
+        return crew
+
+
+# ---------------------------------------------------------------------------
+# Roster
+# ---------------------------------------------------------------------------
+
+@dataclass
+class Roster:
+    """Tracks crew assignments per flight.
+
+    Internal structure: {flight_id: [crew_id, ...]}
+    """
+    _assignments: dict[str, list[str]] = field(default_factory=dict, init=False, repr=False)
+
+    def assign(self, flight_id: str, crew_id: str) -> None:
+        """Assign a crew member to a flight.
+
+        Raises ValueError if the same (flight_id, crew_id) pair is added twice.
+        """
+        crew_list = self._assignments.setdefault(flight_id, [])
+        if crew_id in crew_list:
+            raise ValueError(
+                f"Crew member {crew_id!r} is already assigned to flight {flight_id!r}"
+            )
+        crew_list.append(crew_id)
+
+    def get_flight_crew(self, flight_id: str) -> list[str]:
+        """Return the list of crew_ids assigned to a given flight."""
+        return list(self._assignments.get(flight_id, []))
+
+    def get_crew_schedule(self, crew_id: str, flights: dict[str, Flight]) -> list[Flight]:
+        """Return all flights for a crew member, sorted by departure time."""
+        assigned = [
+            flights[fid]
+            for fid, crew_list in self._assignments.items()
+            if crew_id in crew_list and fid in flights
+        ]
+        return sorted(assigned, key=lambda f: f.departure)
+
+    def all_flight_ids(self) -> list[str]:
+        """Return all flight IDs that have at least one crew member assigned."""
+        return list(self._assignments.keys())
