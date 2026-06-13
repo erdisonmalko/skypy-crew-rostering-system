@@ -1,0 +1,5 @@
+crew_id,name,role,home_base,max_range
+C001,John Smith,Captain,TIA,5000
+C002,Sarah Jones,First Officer,TIA,5000
+C003,Mark Brown,Captain,FRA,3000
+C004,Alice White,First Officer,FRA,3000

@@ -1,0 +1,19 @@
+{
+    "roster": [
+        {
+            "name": "John Doe",
+            "position": "Forward",
+            "number": 10
+        },
+        {
+            "name": "Jane Smith",
+            "position": "Guard",
+            "number": 5
+        },
+        {
+            "name": "Mike Johnson",
+            "position": "Center",
+            "number": 15
+        }
+    ]
+}
