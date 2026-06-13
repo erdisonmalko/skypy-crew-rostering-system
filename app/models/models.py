@@ -5,11 +5,20 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-
+# Constants | Rules
 DATETIME_FMT = "%Y-%m-%dT%H:%M:%SZ"  # ISO 8601: 2024-02-01T08:00:00Z
 VALID_ROLES = {"Captain", "FirstOfficer"}
 VALID_PRIORITIES = {1, 2, 3}
 
+
+# RuleViolation class(used on the services/rules.py file to track rule violations)
+@dataclass
+class RuleViolation:
+    crew_id: str
+    flight_id: str
+    description: str
+
+# Flight class
 
 @dataclass
 class Flight:
@@ -67,15 +76,14 @@ class Flight:
         return flights
 
 
-# ---------------------------------------------------------------------------
-# Crew
-# ---------------------------------------------------------------------------
+
+# Crew class
 
 @dataclass
 class Crew:
     crew_id: str
     home_base: str
-    max_range_miles: str
+    max_range_miles: int
     role: str
     hourly_cost: float
 
@@ -115,9 +123,8 @@ class Crew:
         return crew
 
 
-# ---------------------------------------------------------------------------
-# Roster
-# ---------------------------------------------------------------------------
+
+# Roster class
 
 @dataclass
 class Roster:
