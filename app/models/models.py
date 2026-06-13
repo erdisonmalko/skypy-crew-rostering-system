@@ -6,30 +6,26 @@ from datetime import datetime
 from pathlib import Path
 
 
-DATETIME_FMT = "%Y-%m-%d %H:%M"
+DATETIME_FMT = "%Y-%m-%dT%H:%M:%SZ"  # ISO 8601: 2024-02-01T08:00:00Z
 VALID_ROLES = {"Captain", "FirstOfficer"}
 VALID_PRIORITIES = {1, 2, 3}
 
 
-# ---------------------------------------------------------------------------
-# Flight
-# ---------------------------------------------------------------------------
-
 @dataclass
 class Flight:
     flight_id: str
-    departure: datetime
-    arrival: datetime
-    origin: str
-    destination: str
+    origin: str         
+    destination: str 
+    departure_time: datetime
+    arrival_time: datetime
     distance_miles: int
     priority: int
 
     def __post_init__(self) -> None:
-        if self.arrival <= self.departure:
+        if self.arrival_time <= self.departure_time:
             raise ValueError(
                 f"Flight {self.flight_id}: arrival must be after departure "
-                f"({self.departure} → {self.arrival})"
+                f"({self.departure_time} → {self.arrival_time})"
             )
         if not isinstance(self.distance_miles, int) or self.distance_miles <= 0:
             raise ValueError(
@@ -44,24 +40,22 @@ class Flight:
 
     @property
     def duration_minutes(self) -> int:
-        """Total flight duration in whole minutes."""
-        return int((self.arrival - self.departure).total_seconds() // 60)
+        return int((self.arrival_time - self.departure_time).total_seconds() // 60)
 
     @classmethod
     def from_row(cls, row: dict[str, str]) -> Flight:
         return cls(
             flight_id=row["flight_id"].strip(),
-            departure=datetime.strptime(row["departure"].strip(), DATETIME_FMT),
-            arrival=datetime.strptime(row["arrival"].strip(), DATETIME_FMT),
             origin=row["origin"].strip(),
-            destination=row["destination"].strip(),
+            destination=row["destination"].strip(), 
+            departure_time=datetime.strptime(row["departure_time"].strip(), DATETIME_FMT),
+            arrival_time=datetime.strptime(row["arrival_time"].strip(), DATETIME_FMT),
             distance_miles=int(row["distance_miles"].strip()),
             priority=int(row["priority"].strip()),
         )
 
     @classmethod
     def load_csv(cls, path: str | Path) -> dict[str, Flight]:
-        """Load all flights from a CSV file. Returns {flight_id: Flight}."""
         flights: dict[str, Flight] = {}
         with open(path, newline="", encoding="utf-8") as fh:
             for i, row in enumerate(csv.DictReader(fh), start=2):
@@ -80,7 +74,8 @@ class Flight:
 @dataclass
 class Crew:
     crew_id: str
-    name: str
+    home_base: str
+    max_range_miles: str
     role: str
     hourly_cost: float
 
@@ -100,7 +95,8 @@ class Crew:
     def from_row(cls, row: dict[str, str]) -> Crew:
         return cls(
             crew_id=row["crew_id"].strip(),
-            name=row["name"].strip(),
+            home_base=row["home_base"].strip(),
+            max_range_miles=int(row["max_range_miles"].strip()),
             role=row["role"].strip(),
             hourly_cost=float(row["hourly_cost"].strip()),
         )
@@ -154,7 +150,7 @@ class Roster:
             for fid, crew_list in self._assignments.items()
             if crew_id in crew_list and fid in flights
         ]
-        return sorted(assigned, key=lambda f: f.departure)
+        return sorted(assigned, key=lambda f: f.departure_time)
 
     def all_flight_ids(self) -> list[str]:
         """Return all flight IDs that have at least one crew member assigned."""
