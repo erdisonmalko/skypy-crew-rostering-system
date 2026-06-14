@@ -18,8 +18,13 @@ class RuleViolation:
     flight_id: str
     description: str
 
-# Flight class
+# UnassignedFlight class(used to track flights that are not yet assigned to a crew member - services/scheduler.py)
+@dataclass
+class UnassignedFlight:
+    flight_id: str
+    reason: str
 
+# Flight class
 @dataclass
 class Flight:
     flight_id: str
