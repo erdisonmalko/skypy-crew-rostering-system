@@ -1,4 +1,4 @@
-flight_id,origin,destination,departure_time,arrival_time,distance_miles,priority
+flight_id,origin,destination,departure,arrival,distance_miles,priority
 F001,TIA,FRA,2026-06-20T06:00:00Z,2026-06-20T08:00:00Z,850,1
 F002,FRA,LHR,2026-06-20T09:15:00Z,2026-06-20T11:00:00Z,400,2
 F003,LHR,JFK,2026-06-20T14:00:00Z,2026-06-20T22:00:00Z,3500,1

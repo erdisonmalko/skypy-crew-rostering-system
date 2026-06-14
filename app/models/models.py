@@ -30,12 +30,45 @@ class Flight:
     flight_id: str
     origin: str         
     destination: str 
-    departure_time: datetime
-    arrival_time: datetime
+    departure_time: datetime # chaned name for clarity
+    arrival_time: datetime # changed name for clarity
     distance_miles: int
     priority: int
 
     def __post_init__(self) -> None:
+        """Validate the Flight instance after initialization."""
+        # data type validation, empty string validation
+        if not isinstance(self.flight_id, str) or not self.flight_id:
+            raise ValueError(
+                f"Flight {self.flight_id}: flight_id must be a non-empty string, "
+                f"got {self.flight_id!r}"
+            )
+        
+        if not isinstance(self.origin, str) or not self.origin:
+            raise ValueError(
+                f"Flight {self.flight_id}: origin must be a non-empty string, "
+                f"got {self.origin!r}"
+            )
+        if not isinstance(self.destination, str) or not self.destination:
+            raise ValueError(
+                f"Flight {self.flight_id}: destination must be a non-empty string, "
+                f"got {self.destination!r}"
+            )
+        if not isinstance(self.departure_time, datetime):
+            raise ValueError(
+                f"Flight {self.flight_id}: departure_time must be a datetime object, "
+                f"got {self.departure_time!r}"
+            )
+        if not isinstance(self.arrival_time, datetime):
+            raise ValueError(
+                f"Flight {self.flight_id}: arrival_time must be a datetime object, "
+                f"got {self.arrival_time!r}"
+            )
+        
+        # custom validation: 
+        # arrival must be after departure, 
+        # distance_miles must be positive, 
+        # priority must be 1, 2, or 3
         if self.arrival_time <= self.departure_time:
             raise ValueError(
                 f"Flight {self.flight_id}: arrival must be after departure "
@@ -51,6 +84,13 @@ class Flight:
                 f"Flight {self.flight_id}: priority must be 1, 2, or 3, "
                 f"got {self.priority!r}"
             )
+        # we can also check here if the destination is the same as the origin, 
+        # which is not allowed - for a single flight
+        if self.origin == self.destination:
+            raise ValueError(
+                f"Flight {self.flight_id}: origin and destination cannot be the same "
+                f"({self.origin})"
+            )
 
     @property
     def duration_minutes(self) -> int:
@@ -62,8 +102,8 @@ class Flight:
             flight_id=row["flight_id"].strip(),
             origin=row["origin"].strip(),
             destination=row["destination"].strip(), 
-            departure_time=datetime.strptime(row["departure_time"].strip(), DATETIME_FMT),
-            arrival_time=datetime.strptime(row["arrival_time"].strip(), DATETIME_FMT),
+            departure_time=datetime.strptime(row["departure"].strip(), DATETIME_FMT),
+            arrival_time=datetime.strptime(row["arrival"].strip(), DATETIME_FMT),
             distance_miles=int(row["distance_miles"].strip()),
             priority=int(row["priority"].strip()),
         )
@@ -92,17 +132,34 @@ class Crew:
     hourly_cost: float
 
     def __post_init__(self) -> None:
-        if self.role not in VALID_ROLES:
+        # data type validation, empty string validation
+        if not isinstance(self.crew_id, str) or not self.crew_id:
             raise ValueError(
-                f"Crew {self.crew_id}: role must be 'Captain' or 'FirstOfficer', "
-                f"got {self.role!r}"
+                f"Crew {self.crew_id}: crew_id must be a non-empty string, "
+                f"got {self.crew_id!r}"
+            )
+        if not isinstance(self.home_base, str) or not self.home_base:
+            raise ValueError(
+                f"Crew {self.crew_id}: home_base must be a non-empty string, "
+                f"got {self.home_base!r}"
             )
         if not isinstance(self.hourly_cost, (int, float)) or self.hourly_cost <= 0:
             raise ValueError(
                 f"Crew {self.crew_id}: hourly_cost must be a positive float, "
                 f"got {self.hourly_cost!r}"
             )
+        if not isinstance(self.max_range_miles, int) or self.max_range_miles <= 0:
+            raise ValueError(
+                f"Crew {self.crew_id}: max_range_miles must be a positive integer, "
+                f"got {self.max_range_miles!r}"
+            )
 
+        if self.role not in VALID_ROLES:
+            raise ValueError(
+                f"Crew {self.crew_id}: role must be 'Captain' or 'FirstOfficer', "
+                f"got {self.role!r}"
+            )
+        
     @classmethod
     def from_row(cls, row: dict[str, str]) -> Crew:
         return cls(
@@ -125,6 +182,15 @@ class Crew:
                     raise ValueError(f"crew CSV row {i}: {exc}") from exc
                 crew[c.crew_id] = c
         return crew
+
+    # we can also have helper methods to check rols
+    @property
+    def is_captain(self) -> bool:
+        return self.role == "Captain"
+    
+    @property
+    def is_first_officer(self) -> bool:
+        return self.role == "FirstOfficer"
 
 
 
