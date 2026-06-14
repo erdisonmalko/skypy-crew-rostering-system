@@ -1,7 +1,13 @@
+from datetime import datetime
 import heapq
 from copy import deepcopy
 
-from app.models.models import Crew, Flight, Roster, UnassignedFlight
+from app.models.models import (
+    Crew, 
+    Flight, 
+    Roster, 
+    UnassignedFlight
+)
 from app.services.rules import validate_roster
 
 
@@ -16,9 +22,10 @@ def generate_schedule(
     """
 
     roster = Roster()
-    unassigned: list[UnassignedFlight] = []
-
-    flight_heap: list[tuple[int, object, str]] = []
+    unassigned_flights: list[UnassignedFlight] = []
+    # the heap will have 
+    # a priority(int), a departure_time(datetime), and a flight_id(str) for each flight
+    flight_heap: list[tuple[int, datetime, str]] = []
 
     for flight in flights.values():
         heapq.heappush(
@@ -31,6 +38,8 @@ def generate_schedule(
         )
 
     while flight_heap:
+        # go through each flight, poping the highest priority one first,
+        # and checking for valid crew memebers + if any valiations are caused by assigning them to the flight
         _, _, flight_id = heapq.heappop(flight_heap)
         flight = flights[flight_id]
 
@@ -48,7 +57,7 @@ def generate_schedule(
         ]
 
         if not valid_captains:
-            unassigned.append(
+            unassigned_flights.append(
                 UnassignedFlight(
                     flight_id=flight.flight_id,
                     reason="No Captain available",
@@ -70,7 +79,7 @@ def generate_schedule(
         ]
 
         if not valid_first_officers:
-            unassigned.append(
+            unassigned_flights.append(
                 UnassignedFlight(
                     flight_id=flight.flight_id,
                     reason="No FirstOfficer available",
@@ -116,14 +125,14 @@ def generate_schedule(
                 break
 
         if not assigned:
-            unassigned.append(
+            unassigned_flights.append(
                 UnassignedFlight(
                     flight_id=flight.flight_id,
                     reason="No valid pair found",
                 )
             )
 
-    return roster, unassigned
+    return roster, unassigned_flights
 
 
 
@@ -162,3 +171,25 @@ def _can_assign_crew_to_flight(
     ]
 
     return not crew_violations
+
+
+def calculate_layover_costs(
+      roster: Roster,
+      flights: dict[str, Flight],
+      crew_list: dict[str, Crew],
+  ) -> tuple[dict[str, float], float]:
+    
+    """Calculate layover costs for crew members who end their day away from home base."""
+    layover_costs: dict[str, float] = {}
+
+    for crew in crew_list.values():
+        schedule = roster.get_crew_schedule(crew.crew_id, flights)
+        if not schedule:
+            continue
+
+        last_flight = schedule[-1]
+        if last_flight.destination != crew.home_base:
+            layover_costs[crew.crew_id] = crew.hourly_cost * 8
+
+    total_layover_cost = sum(layover_costs.values())
+    return layover_costs, total_layover_cost

@@ -83,7 +83,6 @@ class Flight:
 
 
 # Crew class
-
 @dataclass
 class Crew:
     crew_id: str
@@ -130,7 +129,6 @@ class Crew:
 
 
 # Roster class
-
 @dataclass
 class Roster:
     """Tracks crew assignments per flight.
