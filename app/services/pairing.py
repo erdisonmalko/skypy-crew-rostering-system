@@ -1,0 +1,152 @@
+from app.models.models import (
+    Crew,
+    Flight,
+    Roster,
+    RuleViolation,
+)
+
+
+def validate_pairing(
+    flight: Flight,
+    roster: Roster,
+    crew_list: dict[str, Crew],
+    flights: dict[str, Flight],
+) -> list[RuleViolation]:
+    """Validate role coverage and per-crew flight-specific constraints."""
+    violations: list[RuleViolation] = []
+
+    assigned_crew_ids = roster.get_flight_crew(flight.flight_id)
+
+    if not assigned_crew_ids:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight.flight_id,
+                description="Incomplete Pairing: no crew assigned",
+            )
+        )
+        return violations
+
+    assigned_crew: list[Crew] = []
+
+    for crew_id in assigned_crew_ids:
+        crew = crew_list.get(crew_id)
+
+        if crew is None:
+            violations.append(
+                RuleViolation(
+                    crew_id=crew_id,
+                    flight_id=flight.flight_id,
+                    description="Assigned crew member does not exist",
+                )
+            )
+            continue
+
+        assigned_crew.append(crew)
+
+    captain_count = sum(1 for crew in assigned_crew if crew.role == "Captain")
+    first_officer_count = sum(1 for crew in assigned_crew if crew.role == "FirstOfficer")
+
+    if captain_count != 1:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight.flight_id,
+                description=(
+                    f"Invalid Pairing: expected exactly 1 Captain, "
+                    f"found {captain_count}"
+                ),
+            )
+        )
+
+    if first_officer_count < 1:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight.flight_id,
+                description="Incomplete Pairing: at least 1 FirstOfficer is required",
+            )
+        )
+
+    for crew in assigned_crew:
+        if flight.distance_miles > crew.max_range_miles:
+            violations.append(
+                RuleViolation(
+                    crew_id=crew.crew_id,
+                    flight_id=flight.flight_id,
+                    description=(
+                        f"Range Certification failed: flight distance "
+                        f"{flight.distance_miles} exceeds crew range "
+                        f"{crew.max_range_miles}"
+                    ),
+                )
+            )
+
+        rest_violation = _validate_dynamic_rest_for_single_flight(
+            crew=crew,
+            flight=flight,
+            roster=roster,
+            flights=flights,
+        )
+        if rest_violation:
+            violations.append(rest_violation)
+
+    return violations
+
+
+def _validate_dynamic_rest_for_single_flight(
+    crew: Crew,
+    flight: Flight,
+    roster: Roster,
+    flights: dict[str, Flight],
+) -> RuleViolation | None:
+    schedule = roster.get_crew_schedule(crew_id=crew.crew_id, flights=flights)
+
+    flight_index = None
+
+    for index, scheduled_flight in enumerate(schedule):
+        if scheduled_flight.flight_id == flight.flight_id:
+            flight_index = index
+            break
+
+    if flight_index is None:
+        return None
+
+    if flight_index > 0:
+        previous_flight = schedule[flight_index - 1]
+        required_rest = 60 if previous_flight.duration_minutes < 180 else 120
+        actual_rest = (
+            flight.departure_time - previous_flight.arrival_time
+        ).total_seconds() / 60
+
+        if actual_rest < required_rest:
+            return RuleViolation(
+                crew_id=crew.crew_id,
+                flight_id=flight.flight_id,
+                description=(
+                    f"Insufficient rest before flight: "
+                    f"{actual_rest:.0f} minutes available, "
+                    f"{required_rest} required"
+                ),
+            )
+
+    if flight_index < len(schedule) - 1:
+        next_flight = schedule[flight_index + 1]
+        required_rest = 60 if flight.duration_minutes < 180 else 120
+        actual_rest = (
+            next_flight.departure_time - flight.arrival_time
+        ).total_seconds() / 60
+
+        if actual_rest < required_rest:
+            return RuleViolation(
+                crew_id=crew.crew_id,
+                flight_id=next_flight.flight_id,
+                description=(
+                    f"Insufficient rest after flight: "
+                    f"{actual_rest:.0f} minutes available, "
+                    f"{required_rest} required"
+                ),
+            )
+
+    return None
+

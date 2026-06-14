@@ -1,6 +1,7 @@
 from app.models.models import Crew, Flight
 from app.services.scheduler import generate_schedule
-from app.services.rules import validate_roster, validate_pairing
+from app.services.pairing import validate_pairing
+from app.services.rules import validate_roster
 
 
 def main() -> None:
@@ -59,6 +60,7 @@ def main() -> None:
             flight=flight,
             roster=roster,
             crew_list=crew,
+            flights=flights,
         )
 
         if not pairing_violations:
