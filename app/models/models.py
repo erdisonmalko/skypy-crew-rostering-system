@@ -18,7 +18,7 @@ class RuleViolation:
     flight_id: str
     description: str
 
-# UnassignedFlight class(used to track flights that are not yet assigned to a crew member - services/scheduler.py)
+# UnassignedFlight class(used to track flights that are not yet assigned - services/scheduler.py)
 @dataclass
 class UnassignedFlight:
     flight_id: str
@@ -30,7 +30,7 @@ class Flight:
     flight_id: str
     origin: str         
     destination: str 
-    departure_time: datetime # chaned name for clarity
+    departure_time: datetime # changed name for clarity
     arrival_time: datetime # changed name for clarity
     distance_miles: int
     priority: int
