@@ -1,19 +1,43 @@
 {
-    "roster": [
-        {
-            "name": "John Doe",
-            "position": "Forward",
-            "number": 10
-        },
-        {
-            "name": "Jane Smith",
-            "position": "Guard",
-            "number": 5
-        },
-        {
-            "name": "Mike Johnson",
-            "position": "Center",
-            "number": 15
-        }
-    ]
+  "C001": {
+    "role": "Captain",
+    "flights": [
+      "F001",
+      "F002"
+    ],
+    "total_hours": 3.75,
+    "layover_cost": 760.0
+  },
+  "C002": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F001",
+      "F002"
+    ],
+    "total_hours": 3.75,
+    "layover_cost": 640.0
+  },
+  "C003": {
+    "role": "Captain",
+    "flights": [
+      "F004"
+    ],
+    "total_hours": 2.0,
+    "layover_cost": 720.0
+  },
+  "C004": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F004"
+    ],
+    "total_hours": 2.0,
+    "layover_cost": 600.0
+  },
+  "unassigned": [
+    {
+      "flight_id": "F003",
+      "reason": "No Captain available"
+    }
+  ],
+  "total_layover_cost": 2720.0
 }
