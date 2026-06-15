@@ -85,7 +85,8 @@ class Flight:
                 f"got {self.priority!r}"
             )
         # we can also check here if the destination is the same as the origin, 
-        # which is not allowed - for a single flight
+        # this to make sure data we load is not with errors
+        # as this not explicitly asked by the requirements
         if self.origin == self.destination:
             raise ValueError(
                 f"Flight {self.flight_id}: origin and destination cannot be the same "

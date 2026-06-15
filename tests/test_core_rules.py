@@ -159,11 +159,11 @@ def test_conflict_guard_rejects_duplicate_crew_flight_assignment() -> None:
 def test_layover_costs_include_only_crew_away_from_home_base() -> None:
     flights = {
         "F001": make_flight("F001", "JFK", "LHR", 0, 120),
-        "F002": make_flight("F002", "JFK", "JFK", 0, 120),
+        "F002": make_flight("F002", "JFK", "LHR", 0, 120),
     }
     crew = {
         "C001": make_crew("C001", home_base="JFK", hourly_cost=100.0),
-        "C002": make_crew("C002", home_base="JFK", hourly_cost=80.0),
+        "C002": make_crew("C002", home_base="LHR", hourly_cost=80.0),
         "C003": make_crew("C003", home_base="JFK", hourly_cost=75.0),
     }
     roster = Roster()
