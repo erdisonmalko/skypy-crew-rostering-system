@@ -1,9 +1,22 @@
-PHONY: build, run, delete
+.PHONY: build run stop delete test generate
+
+IMAGE=skypy-crew-rostering
+CONTAINER=skypy-crew-rostering
 
 build:
-	docker build -t skypy-crew-rostering .
+	docker build -t $(IMAGE) .
+
 run:
-	docker run -d --name skypy-crew-rostering -p 5000:5000 skypy-crew-rostering
+	docker run -d --name $(CONTAINER) -p 5000:5000 $(IMAGE)
+
+stop:
+	-docker stop $(CONTAINER)
+
 delete:
-	docker stop skypy-crew-rostering
-	docker rm skypy-crew-rostering
+	-docker rm -f $(CONTAINER)
+
+test:
+	python3 -m pytest -q
+
+generate:
+	python3 scripts/generate_roster.py
