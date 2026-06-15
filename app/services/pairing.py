@@ -5,6 +5,7 @@ from app.models.models import (
     RuleViolation,
 )
 
+from app.services.utils import required_rest_minutes
 
 def validate_pairing(
     flight: Flight,
@@ -15,7 +16,7 @@ def validate_pairing(
     """Validate role coverage and per-crew flight-specific constraints."""
     violations: list[RuleViolation] = []
 
-    assigned_crew_ids = roster.get_flight_crew(flight.flight_id)
+    assigned_crew_ids: list[str] = roster.get_flight_crew(flight.flight_id)
 
     if not assigned_crew_ids:
         violations.append(
@@ -81,7 +82,9 @@ def validate_pairing(
                     ),
                 )
             )
-
+        # to calc this we need a list of flights, because we need to ckeck 
+        # previous and next flights for the crew member to calculate rest time
+        # thats why function takes flights as an argument
         rest_violation = _validate_dynamic_rest_for_single_flight(
             crew=crew,
             flight=flight,
@@ -94,14 +97,16 @@ def validate_pairing(
     return violations
 
 
+
 def _validate_dynamic_rest_for_single_flight(
     crew: Crew,
     flight: Flight,
     roster: Roster,
     flights: dict[str, Flight],
 ) -> RuleViolation | None:
-    schedule = roster.get_crew_schedule(crew_id=crew.crew_id, flights=flights)
-
+    
+    schedule: list[Flight] = roster.get_crew_schedule(crew_id=crew.crew_id, flights=flights)
+    
     flight_index = None
 
     for index, scheduled_flight in enumerate(schedule):
@@ -114,7 +119,7 @@ def _validate_dynamic_rest_for_single_flight(
 
     if flight_index > 0:
         previous_flight = schedule[flight_index - 1]
-        required_rest = 60 if previous_flight.duration_minutes < 180 else 120
+        required_rest = required_rest_minutes(previous_flight)
         actual_rest = (
             flight.departure_time - previous_flight.arrival_time
         ).total_seconds() / 60
@@ -132,7 +137,7 @@ def _validate_dynamic_rest_for_single_flight(
 
     if flight_index < len(schedule) - 1:
         next_flight = schedule[flight_index + 1]
-        required_rest = 60 if flight.duration_minutes < 180 else 120
+        required_rest = required_rest_minutes(flight)
         actual_rest = (
             next_flight.departure_time - flight.arrival_time
         ).total_seconds() / 60

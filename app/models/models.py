@@ -222,12 +222,19 @@ class Roster:
 
     def get_crew_schedule(self, crew_id: str, flights: dict[str, Flight]) -> list[Flight]:
         """Return all flights for a crew member, sorted by departure time."""
-        assigned = [
-            flights[fid]
-            for fid, crew_list in self._assignments.items()
-            if crew_id in crew_list and fid in flights
-        ]
-        return sorted(assigned, key=lambda f: f.departure_time)
+        assigned_flights: list[Flight] = []
+
+        for flight_id, assigned_crew_ids in self._assignments.items():
+            if crew_id not in assigned_crew_ids:
+                continue
+
+            flight = flights.get(flight_id)
+            if flight is None:
+                continue
+
+            assigned_flights.append(flight)
+
+        return sorted(assigned_flights, key=lambda flight: flight.departure_time)
 
     def all_flight_ids(self) -> list[str]:
         """Return all flight IDs that have at least one crew member assigned."""

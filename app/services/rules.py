@@ -5,6 +5,7 @@ from app.models.models import (
     RuleViolation,
 )
 
+from app.services.utils import required_rest_minutes
 
 def validate_roster(
     roster: Roster,
@@ -92,7 +93,7 @@ def _check_dynamic_rest(
 ) -> None:
     # same as above, we check pairs of flights to calculate the rest time between them
     for previous, current in zip(schedule, schedule[1:]):
-        required_rest = 60 if previous.duration_minutes < 180 else 120
+        required_rest = required_rest_minutes(previous)
         actual_rest = (
             current.departure_time - previous.arrival_time
         ).total_seconds() / 60
