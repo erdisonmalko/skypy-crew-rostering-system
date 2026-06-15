@@ -82,7 +82,7 @@ def validate_pairing(
                     ),
                 )
             )
-        # to calc this we need a list of flights, because we need to ckeck 
+        # to calc this we need a list of flights, because we need to check 
         # previous and next flights for the crew member to calculate rest time
         # thats why function takes flights as an argument
         rest_violation = _validate_dynamic_rest_for_single_flight(
