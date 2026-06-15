@@ -15,7 +15,7 @@ def validate_roster(
     violations: list[RuleViolation] = []
 
     for crew in crew_list.values():
-        schedule = roster.get_crew_schedule(crew.crew_id, flights)
+        schedule: list[Flight] = roster.get_crew_schedule(crew.crew_id, flights)
         if not schedule:
             continue
 
@@ -69,6 +69,8 @@ def _check_route_continuity(
     schedule: list[Flight],
     violations: list[RuleViolation],
 ) -> None:
+    # checks them like: f1,f2,f3,f4 with f2,f3,f4 and creates pairs
+    #  (f1,f2), (f2,f3), (f3,f4) to check the continuity
     for previous, current in zip(schedule, schedule[1:]):
         if previous.destination != current.origin:
             violations.append(
@@ -88,6 +90,7 @@ def _check_dynamic_rest(
     schedule: list[Flight],
     violations: list[RuleViolation],
 ) -> None:
+    # same as above, we check pairs of flights to calculate the rest time between them
     for previous, current in zip(schedule, schedule[1:]):
         required_rest = 60 if previous.duration_minutes < 180 else 120
         actual_rest = (
