@@ -117,7 +117,7 @@ def _validate_dynamic_rest_for_single_flight(
     if flight_index is None:
         return None
 
-    if flight_index > 0:
+    if flight_index > 0: # If this is not the first flight, check the flight before it
         previous_flight = schedule[flight_index - 1]
         required_rest = required_rest_minutes(previous_flight)
         actual_rest = (
@@ -135,7 +135,7 @@ def _validate_dynamic_rest_for_single_flight(
                 ),
             )
 
-    if flight_index < len(schedule) - 1:
+    if flight_index < len(schedule) - 1: # If this is not the last flight, check the flight after it
         next_flight = schedule[flight_index + 1]
         required_rest = required_rest_minutes(flight)
         actual_rest = (
