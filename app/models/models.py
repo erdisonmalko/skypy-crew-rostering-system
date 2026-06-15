@@ -74,12 +74,12 @@ class Flight:
                 f"Flight {self.flight_id}: arrival must be after departure "
                 f"({self.departure_time} → {self.arrival_time})"
             )
-        if not isinstance(self.distance_miles, int) or self.distance_miles <= 0:
+        if type(self.distance_miles) is not int or self.distance_miles <= 0:
             raise ValueError(
                 f"Flight {self.flight_id}: distance_miles must be a positive integer, "
                 f"got {self.distance_miles!r}"
             )
-        if self.priority not in VALID_PRIORITIES:
+        if type(self.priority) is not int or self.priority not in VALID_PRIORITIES:
             raise ValueError(
                 f"Flight {self.flight_id}: priority must be 1, 2, or 3, "
                 f"got {self.priority!r}"
@@ -149,7 +149,7 @@ class Crew:
                 f"Crew {self.crew_id}: hourly_cost must be a positive float, "
                 f"got {self.hourly_cost!r}"
             )
-        if not isinstance(self.max_range_miles, int) or self.max_range_miles <= 0:
+        if type(self.max_range_miles) is not int or self.max_range_miles <= 0:
             raise ValueError(
                 f"Crew {self.crew_id}: max_range_miles must be a positive integer, "
                 f"got {self.max_range_miles!r}"
