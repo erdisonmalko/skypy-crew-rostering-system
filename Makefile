@@ -16,7 +16,7 @@ delete:
 	-docker rm -f $(CONTAINER)
 
 test:
-	python3 -m pytest -q
+	python3 -m pytest tests/ -v
 
 generate:
 	python3 scripts/generate_roster.py

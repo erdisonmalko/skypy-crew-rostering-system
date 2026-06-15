@@ -1,1 +1,0 @@
-# more info about the app/ code structure and implemetation info
