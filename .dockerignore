@@ -1,0 +1,8 @@
+.git
+.venv
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+SkyPy_Crew_Rostering_PracticalTest_v3.pdf

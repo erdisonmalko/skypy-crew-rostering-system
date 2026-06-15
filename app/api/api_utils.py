@@ -34,7 +34,9 @@ def _serialize_crew_breakdown(
     crew: dict[str, Crew],
     layover_costs: dict[str, float],
 ) -> dict[str, dict[str, Any]]:
+    
     breakdown: dict[str, dict[str, Any]] = {}
+    
     for crew_id, member in crew.items():
         schedule = roster.get_crew_schedule(crew_id=crew_id, flights=flights)
         breakdown[crew_id] = {
