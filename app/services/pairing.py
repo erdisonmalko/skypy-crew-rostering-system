@@ -25,7 +25,6 @@ def validate_pairing(
                 description="Flight does not exist",
             )
         )
-        # if there is no flight, retunr early
         return violations
     
     assigned_crew_ids = roster.get_flight_crew(flight_id)
@@ -56,6 +55,9 @@ def validate_pairing(
             continue
 
         assigned_crew.append(crew)
+    # just in case we can not find crew members on the given lists
+    if not assigned_crew:
+        return violations
 
     captain_count = sum(1 for crew in assigned_crew if crew.role == "Captain")
     first_officer_count = sum(1 for crew in assigned_crew if crew.role == "FirstOfficer")
@@ -174,4 +176,3 @@ def _validate_dynamic_rest_for_single_flight(
             )
 
     return None
-
