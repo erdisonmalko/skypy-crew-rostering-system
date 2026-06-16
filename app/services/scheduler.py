@@ -10,8 +10,6 @@ from app.models.models import (
 )
 from app.services.rules import validate_roster
 
-#  ASK IF WE CAN 'MERGE' SCHEMAS AND MODELS INTO ONE OR WE NEED BOTH AND WHY
-# UNDERSATAND generate_schedule BETTER
 
 def generate_schedule(
     flights: dict[str, Flight],

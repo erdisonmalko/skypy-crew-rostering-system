@@ -16,7 +16,17 @@ def validate_pairing(
 ) -> list[RuleViolation]:
     violations: list[RuleViolation] = []
 
-    flight = flights[flight_id]
+    flight = flights.get(flight_id)
+    if flight is None:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight_id,
+                description="Flight does not exist",
+            )
+        )
+        return violations
+    
     assigned_crew_ids = roster.get_flight_crew(flight_id)
 
     if not assigned_crew_ids:

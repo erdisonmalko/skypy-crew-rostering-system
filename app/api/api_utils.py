@@ -6,6 +6,7 @@ from dataclasses import asdict
 from pydantic import ValidationError
 
 from app.models.models import Crew, Flight, Roster, UnassignedFlight
+from app.services.utils import _total_flight_hours
 
 def _get_current_run(_current_run: dict[str, Any]) -> dict[str, Any] | None:
     if not _current_run:
@@ -47,9 +48,6 @@ def _serialize_crew_breakdown(
         }
     return breakdown
 
-
-def _total_flight_hours(schedule: list[Flight]) -> float:
-    return round(sum(flight.duration_minutes for flight in schedule) / 60, 2)
 
 
 def _format_validation_error(error: ValidationError | ValueError) -> str:

@@ -7,7 +7,7 @@ from typing import Any
 from app.models.models import Crew, Flight, Roster, UnassignedFlight
 from app.services.costs import calculate_layover_costs
 
-from app.api.api_utils import _total_flight_hours
+from app.services.utils import _total_flight_hours
 
 def build_roster_output(
     roster: Roster,
