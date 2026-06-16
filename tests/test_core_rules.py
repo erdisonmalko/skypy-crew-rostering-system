@@ -138,7 +138,7 @@ def test_pairing_validation_rejects_two_captains_without_first_officer() -> None
     roster.assign("F001", "C002")
 
     violations = validate_pairing(
-        flight=flight,
+        flight_id=flight.flight_id,
         roster=roster,
         crew_list=crew,
         flights={"F001": flight},
@@ -194,7 +194,7 @@ def test_pairing_dynamic_rest_checks_each_assigned_crew_member() -> None:
     roster.assign("F002", "C002")
 
     violations = validate_pairing(
-        flight=current,
+        flight_id=current.flight_id,
         roster=roster,
         crew_list=crew,
         flights=flights,

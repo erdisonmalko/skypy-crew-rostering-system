@@ -57,7 +57,7 @@ def main() -> None:
     print("\nPairing validation:")
     for flight in flights.values():
         pairing_violations = validate_pairing(
-            flight=flight,
+            flight_id=flight.flight_id,
             roster=roster,
             crew_list=crew,
             flights=flights,

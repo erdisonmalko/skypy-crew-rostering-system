@@ -7,22 +7,23 @@ from app.models.models import (
 
 from app.services.utils import required_rest_minutes
 
+
 def validate_pairing(
-    flight: Flight,
+    flight_id: str,
     roster: Roster,
     crew_list: dict[str, Crew],
     flights: dict[str, Flight],
 ) -> list[RuleViolation]:
-    """Validate role coverage and per-crew flight-specific constraints."""
     violations: list[RuleViolation] = []
 
-    assigned_crew_ids: list[str] = roster.get_flight_crew(flight.flight_id)
+    flight = flights[flight_id]
+    assigned_crew_ids = roster.get_flight_crew(flight_id)
 
     if not assigned_crew_ids:
         violations.append(
             RuleViolation(
                 crew_id="N/A",
-                flight_id=flight.flight_id,
+                flight_id=flight_id,
                 description="Incomplete Pairing: no crew assigned",
             )
         )
@@ -37,7 +38,7 @@ def validate_pairing(
             violations.append(
                 RuleViolation(
                     crew_id=crew_id,
-                    flight_id=flight.flight_id,
+                    flight_id=flight_id,
                     description="Assigned crew member does not exist",
                 )
             )
@@ -48,24 +49,42 @@ def validate_pairing(
     captain_count = sum(1 for crew in assigned_crew if crew.role == "Captain")
     first_officer_count = sum(1 for crew in assigned_crew if crew.role == "FirstOfficer")
 
-    if captain_count != 1:
+    if captain_count == 0 and first_officer_count > 0:
         violations.append(
             RuleViolation(
                 crew_id="N/A",
-                flight_id=flight.flight_id,
+                flight_id=flight_id,
+                description="Incomplete Pairing: Captain missing",
+            )
+        )
+
+    elif captain_count > 0 and first_officer_count == 0:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight_id,
+                description="Incomplete Pairing: FirstOfficer missing",
+            )
+        )
+
+    elif captain_count == 0 and first_officer_count == 0:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight_id,
+                description="Incomplete Pairing: no valid crew roles assigned",
+            )
+        )
+
+    if captain_count > 1:
+        violations.append(
+            RuleViolation(
+                crew_id="N/A",
+                flight_id=flight_id,
                 description=(
                     f"Invalid Pairing: expected exactly 1 Captain, "
                     f"found {captain_count}"
                 ),
-            )
-        )
-
-    if first_officer_count < 1:
-        violations.append(
-            RuleViolation(
-                crew_id="N/A",
-                flight_id=flight.flight_id,
-                description="Incomplete Pairing: at least 1 FirstOfficer is required",
             )
         )
 
@@ -74,7 +93,7 @@ def validate_pairing(
             violations.append(
                 RuleViolation(
                     crew_id=crew.crew_id,
-                    flight_id=flight.flight_id,
+                    flight_id=flight_id,
                     description=(
                         f"Range Certification failed: flight distance "
                         f"{flight.distance_miles} exceeds crew range "
@@ -91,12 +110,11 @@ def validate_pairing(
             roster=roster,
             flights=flights,
         )
+
         if rest_violation:
             violations.append(rest_violation)
 
     return violations
-
-
 
 def _validate_dynamic_rest_for_single_flight(
     crew: Crew,
