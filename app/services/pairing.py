@@ -25,6 +25,7 @@ def validate_pairing(
                 description="Flight does not exist",
             )
         )
+        # if there is no flight, retunr early
         return violations
     
     assigned_crew_ids = roster.get_flight_crew(flight_id)
@@ -74,15 +75,6 @@ def validate_pairing(
                 crew_id="N/A",
                 flight_id=flight_id,
                 description="Incomplete Pairing: FirstOfficer missing",
-            )
-        )
-
-    elif captain_count == 0 and first_officer_count == 0:
-        violations.append(
-            RuleViolation(
-                crew_id="N/A",
-                flight_id=flight_id,
-                description="Incomplete Pairing: no valid crew roles assigned",
             )
         )
 
