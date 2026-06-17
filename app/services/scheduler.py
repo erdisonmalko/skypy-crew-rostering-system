@@ -1,6 +1,5 @@
 from datetime import datetime
 import heapq
-from copy import deepcopy
 
 from app.models.models import (
     Crew, 
@@ -8,7 +7,7 @@ from app.models.models import (
     Roster, 
     UnassignedFlight
 )
-from app.services.rules import validate_roster
+from app.services.utils import required_rest_minutes
 
 
 def generate_schedule(
@@ -50,7 +49,6 @@ def generate_schedule(
                 flight=flight,
                 roster=roster,
                 flights=flights,
-                crew_list=crew_list,
             )
         ]
 
@@ -72,7 +70,6 @@ def generate_schedule(
                 flight=flight,
                 roster=roster,
                 flights=flights,
-                crew_list=crew_list,
             )
         ]
 
@@ -85,50 +82,14 @@ def generate_schedule(
             )
             continue
 
-        assigned = False
-
-        for captain in valid_captains:
-            for first_officer in valid_first_officers:
-                candidate_roster = deepcopy(roster)
-
-                candidate_roster.assign(
-                    flight_id=flight.flight_id,
-                    crew_id=captain.crew_id,
-                )
-                candidate_roster.assign(
-                    flight_id=flight.flight_id,
-                    crew_id=first_officer.crew_id,
-                )
-
-                violations = validate_roster(
-                    roster=candidate_roster,
-                    flights=flights,
-                    crew_list=crew_list,
-                )
-
-                if not violations:
-                    roster.assign(
-                        flight_id=flight.flight_id,
-                        crew_id=captain.crew_id,
-                    )
-                    roster.assign(
-                        flight_id=flight.flight_id,
-                        crew_id=first_officer.crew_id,
-                    )
-
-                    assigned = True
-                    break
-
-            if assigned:
-                break
-
-        if not assigned:
-            unassigned_flights.append(
-                UnassignedFlight(
-                    flight_id=flight.flight_id,
-                    reason="No valid pair found",
-                )
-            )
+        roster.assign(
+            flight_id=flight.flight_id,
+            crew_id=valid_captains[0].crew_id,
+        )
+        roster.assign(
+            flight_id=flight.flight_id,
+            crew_id=valid_first_officers[0].crew_id,
+        )
 
     return roster, unassigned_flights
 
@@ -139,33 +100,42 @@ def _can_assign_crew_to_flight(
     flight: Flight,
     roster: Roster,
     flights: dict[str, Flight],
-    crew_list: dict[str, Crew],
 ) -> bool:
-    """Check whether assigning one crew member to one flight keeps roster legal."""
+    """Check whether assigning one crew member keeps that crew schedule legal."""
 
-    if flight.distance_miles > crew.max_range_miles:
+    current_schedule = roster.get_crew_schedule(crew_id=crew.crew_id, flights=flights)
+    # make sure the crew member isn't already assigned to this flight
+    if any(assigned.flight_id == flight.flight_id for assigned in current_schedule):
         return False
 
-    candidate_roster = deepcopy(roster)
+    #add candidate flight to current schedule and sort by departure time to check legality
+    candidate_schedule = current_schedule + [flight] 
+    candidate_schedule.sort(key=lambda f: f.departure_time)
 
-    try:
-        candidate_roster.assign(
-            flight_id=flight.flight_id,
-            crew_id=crew.crew_id,
-        )
-    except ValueError:
+    return _is_crew_schedule_legal(crew=crew, schedule=candidate_schedule)
+
+
+def _is_crew_schedule_legal(crew: Crew, schedule: list[Flight]) -> bool:
+    """Helper that implements similar logic as rules.py, but optimized for incremental checks during scheduling."""
+    if not schedule:
+        return True
+
+    if schedule[0].origin != crew.home_base:
         return False
 
-    violations = validate_roster(
-        roster=candidate_roster,
-        flights=flights,
-        crew_list=crew_list,
-    )
+    for flight in schedule:
+        if flight.distance_miles > crew.max_range_miles:
+            return False
 
-    crew_violations = [
-        violation
-        for violation in violations
-        if violation.crew_id == crew.crew_id
-    ]
+    for previous, current in zip(schedule, schedule[1:]):
+        if previous.destination != current.origin:
+            return False
 
-    return not crew_violations
+        required_rest = required_rest_minutes(previous)
+        actual_rest = (
+            current.departure_time - previous.arrival_time
+        ).total_seconds() / 60
+        if actual_rest < required_rest:
+            return False
+
+    return True
