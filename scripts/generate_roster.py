@@ -21,12 +21,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Generate a crew roster from CSV inputs.")
     parser.add_argument(
         "--flights",
-        default="data/csv/small/flights.csv",
+        default="data/csv/flights.csv",
         help="Path to flights CSV",
     )
     parser.add_argument(
         "--crew",
-        default="data/csv/small/crew.csv",
+        default="data/csv/crew.csv",
         help="Path to crew CSV",
     )
     parser.add_argument(

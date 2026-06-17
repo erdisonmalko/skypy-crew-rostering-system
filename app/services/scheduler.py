@@ -7,7 +7,7 @@ from app.models.models import (
     Roster, 
     UnassignedFlight
 )
-from app.services.utils import required_rest_minutes
+from app.services.rules import validate_crew_schedule
 
 
 def generate_schedule(
@@ -112,30 +112,4 @@ def _can_assign_crew_to_flight(
     candidate_schedule = current_schedule + [flight] 
     candidate_schedule.sort(key=lambda f: f.departure_time)
 
-    return _is_crew_schedule_legal(crew=crew, schedule=candidate_schedule)
-
-
-def _is_crew_schedule_legal(crew: Crew, schedule: list[Flight]) -> bool:
-    """Helper that implements similar logic as rules.py, but optimized for incremental checks during scheduling."""
-    if not schedule:
-        return True
-
-    if schedule[0].origin != crew.home_base:
-        return False
-
-    for flight in schedule:
-        if flight.distance_miles > crew.max_range_miles:
-            return False
-
-    for previous, current in zip(schedule, schedule[1:]):
-        if previous.destination != current.origin:
-            return False
-
-        required_rest = required_rest_minutes(previous)
-        actual_rest = (
-            current.departure_time - previous.arrival_time
-        ).total_seconds() / 60
-        if actual_rest < required_rest:
-            return False
-
-    return True
+    return not validate_crew_schedule(crew=crew, schedule=candidate_schedule)

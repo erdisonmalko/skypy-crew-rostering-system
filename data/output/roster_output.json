@@ -1,43 +1,726 @@
 {
   "C001": {
-    "role": "Captain",
+    "role": "FirstOfficer",
     "flights": [
-      "F001",
-      "F002"
+      "F022",
+      "F023",
+      "F024"
     ],
-    "total_hours": 3.75,
-    "layover_cost": 760.0
+    "total_hours": 3.5,
+    "layover_cost": 695.2
   },
   "C002": {
-    "role": "FirstOfficer",
-    "flights": [
-      "F001",
-      "F002"
-    ],
-    "total_hours": 3.75,
-    "layover_cost": 640.0
-  },
-  "C003": {
     "role": "Captain",
     "flights": [
-      "F004"
+      "F063"
     ],
-    "total_hours": 2.0,
-    "layover_cost": 720.0
+    "total_hours": 1.17,
+    "layover_cost": 696.0
   },
-  "C004": {
+  "C003": {
     "role": "FirstOfficer",
     "flights": [
-      "F004"
+      "F004",
+      "F005",
+      "F039",
+      "F075"
     ],
-    "total_hours": 2.0,
-    "layover_cost": 600.0
+    "total_hours": 11.78,
+    "layover_cost": 853.6
+  },
+  "C004": {
+    "role": "Captain",
+    "flights": [
+      "F023",
+      "F024"
+    ],
+    "total_hours": 2.55,
+    "layover_cost": 1036.8
+  },
+  "C005": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F026",
+      "F011",
+      "F012",
+      "F061",
+      "F062",
+      "F063"
+    ],
+    "total_hours": 7.88,
+    "layover_cost": 934.4
+  },
+  "C006": {
+    "role": "Captain",
+    "flights": [
+      "F010",
+      "F011",
+      "F012",
+      "F061",
+      "F062"
+    ],
+    "total_hours": 6.27,
+    "layover_cost": 700.0
+  },
+  "C007": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F007"
+    ],
+    "total_hours": 2.2,
+    "layover_cost": 618.4
+  },
+  "C008": {
+    "role": "Captain",
+    "flights": [
+      "F009",
+      "F019",
+      "F067"
+    ],
+    "total_hours": 4.88,
+    "layover_cost": 961.6
+  },
+  "C009": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C010": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C011": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F046",
+      "F065",
+      "F066",
+      "F067"
+    ],
+    "total_hours": 12.85,
+    "layover_cost": 1021.6
+  },
+  "C012": {
+    "role": "Captain",
+    "flights": [
+      "F039",
+      "F075"
+    ],
+    "total_hours": 3.0,
+    "layover_cost": 1052.0
+  },
+  "C013": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C014": {
+    "role": "Captain",
+    "flights": [
+      "F066"
+    ],
+    "total_hours": 1.83,
+    "layover_cost": 1120.8
+  },
+  "C015": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C016": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C017": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C018": {
+    "role": "Captain",
+    "flights": [
+      "F003",
+      "F004",
+      "F005"
+    ],
+    "total_hours": 16.18,
+    "layover_cost": 1148.0
+  },
+  "C019": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C020": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C021": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C022": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C023": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C024": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C025": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C026": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C027": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C028": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C029": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C030": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C031": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C032": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C033": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C034": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C035": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C036": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C037": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C038": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C039": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C040": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C041": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C042": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C043": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C044": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C045": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C046": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C047": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C048": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C049": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C050": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C051": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C052": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F009",
+      "F010",
+      "F047"
+    ],
+    "total_hours": 4.1,
+    "layover_cost": 756.0
+  },
+  "C053": {
+    "role": "Captain",
+    "flights": [
+      "F022"
+    ],
+    "total_hours": 0.95,
+    "layover_cost": 656.0
+  },
+  "C054": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C055": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C056": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F003"
+    ],
+    "total_hours": 7.4,
+    "layover_cost": 840.0
+  },
+  "C057": {
+    "role": "Captain",
+    "flights": [
+      "F046",
+      "F065"
+    ],
+    "total_hours": 9.6,
+    "layover_cost": 1160.0
+  },
+  "C058": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C059": {
+    "role": "Captain",
+    "flights": [
+      "F055"
+    ],
+    "total_hours": 1.25,
+    "layover_cost": 1056.0
+  },
+  "C060": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F055"
+    ],
+    "total_hours": 1.25,
+    "layover_cost": 768.0
+  },
+  "C061": {
+    "role": "Captain",
+    "flights": [
+      "F026",
+      "F047"
+    ],
+    "total_hours": 2.9,
+    "layover_cost": 708.0
+  },
+  "C062": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C063": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C064": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C065": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C066": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F019"
+    ],
+    "total_hours": 1.82,
+    "layover_cost": 712.0
+  },
+  "C067": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C068": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C069": {
+    "role": "Captain",
+    "flights": [
+      "F008",
+      "F069"
+    ],
+    "total_hours": 6.82,
+    "layover_cost": 1024.0
+  },
+  "C070": {
+    "role": "FirstOfficer",
+    "flights": [
+      "F008",
+      "F069"
+    ],
+    "total_hours": 6.82,
+    "layover_cost": 736.0
+  },
+  "C071": {
+    "role": "Captain",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C072": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C073": {
+    "role": "Captain",
+    "flights": [
+      "F007"
+    ],
+    "total_hours": 2.2,
+    "layover_cost": 792.0
+  },
+  "C074": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
+  },
+  "C075": {
+    "role": "FirstOfficer",
+    "flights": [],
+    "total_hours": 0.0,
+    "layover_cost": 0.0
   },
   "unassigned": [
     {
-      "flight_id": "F003",
+      "flight_id": "F029",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F031",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F016",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F013",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F014",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F049",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F051",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F052",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F053",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F071",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F072",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F025",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F002",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F033",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F027",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F036",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F020",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F021",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F028",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F032",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F018",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F040",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F042",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F050",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F056",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F057",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F054",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F064",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F068",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F073",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F074",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F001",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F006",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F034",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F035",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F030",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F017",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F015",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F037",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F038",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F041",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F043",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F044",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F045",
+      "reason": "No FirstOfficer available"
+    },
+    {
+      "flight_id": "F048",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F058",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F059",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F060",
+      "reason": "No Captain available"
+    },
+    {
+      "flight_id": "F070",
       "reason": "No Captain available"
     }
   ],
-  "total_layover_cost": 2720.0
+  "total_layover_cost": 20046.4
 }

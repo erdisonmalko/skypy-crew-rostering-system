@@ -31,18 +31,18 @@ python3 -m pytest tests/ -v
 
 ## Generate Roster From CSV
 
-Default input is the small sample dataset:
+Default input is the merged sample dataset:
 
 ```bash
 python3 scripts/generate_roster.py
 ```
 
-Custom input:
+Custom input, for example:
 
 ```bash
 python3 scripts/generate_roster.py \
-  --flights data/csv/large/flights.csv \
-  --crew data/csv/large/crew.csv \
+  --flights data/csv/flights.csv \
+  --crew data/csv/crew.csv \
   --output data/output/roster_output.json
 ```
 

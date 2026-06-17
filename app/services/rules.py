@@ -17,14 +17,24 @@ def validate_roster(
 
     for crew in crew_list.values():
         schedule: list[Flight] = roster.get_crew_schedule(crew.crew_id, flights)
-        if not schedule:
-            continue
+        violations.extend(validate_crew_schedule(crew=crew, schedule=schedule))
 
-        _check_home_base(crew, schedule, violations)
-        _check_range_certification(crew, schedule, violations)
-        _check_route_continuity(crew, schedule, violations)
-        _check_dynamic_rest(crew, schedule, violations)
+    return violations
 
+
+def validate_crew_schedule(
+    crew: Crew,
+    schedule: list[Flight],
+) -> list[RuleViolation]:
+    """Validate one crew member's chronological schedule."""
+    violations: list[RuleViolation] = []
+    if not schedule:
+        return violations
+
+    _check_home_base(crew, schedule, violations)
+    _check_range_certification(crew, schedule, violations)
+    _check_route_continuity(crew, schedule, violations)
+    _check_dynamic_rest(crew, schedule, violations)
     return violations
 
 
