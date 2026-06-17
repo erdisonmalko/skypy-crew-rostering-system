@@ -118,6 +118,9 @@ class Flight:
                     f = cls.from_row(row)
                 except (ValueError, KeyError) as exc:
                     raise ValueError(f"flights CSV row {i}: {exc}") from exc
+                # check for duplicate flight_id
+                if f.flight_id in flights:
+                    raise ValueError(f"flights CSV row {i}: duplicate flight_id {f.flight_id!r}")
                 flights[f.flight_id] = f
         return flights
 
@@ -181,6 +184,9 @@ class Crew:
                     c = cls.from_row(row)
                 except (ValueError, KeyError) as exc:
                     raise ValueError(f"crew CSV row {i}: {exc}") from exc
+                # check for duplicate crew_id
+                if c.crew_id in crew:
+                    raise ValueError(f"crew CSV row {i}: duplicate crew_id {c.crew_id!r}")
                 crew[c.crew_id] = c
         return crew
 

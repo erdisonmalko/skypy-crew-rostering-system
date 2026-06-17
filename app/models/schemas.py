@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, StrictInt, StrictStr, field_validator
 
-from app.models.models import VALID_PRIORITIES, VALID_ROLES, Crew, Flight
+from app.models.models import  Crew, Flight
 
 
 class FlightInput(BaseModel):
@@ -24,12 +24,6 @@ class FlightInput(BaseModel):
             raise ValueError("must be a non-empty string")
         return stripped
 
-    @field_validator("priority")
-    @classmethod
-    def validate_priority(cls, value: int) -> int:
-        if value not in VALID_PRIORITIES:
-            raise ValueError("must be 1, 2, or 3")
-        return value
 
     def to_domain(self) -> Flight:
         return Flight(
@@ -57,20 +51,6 @@ class CrewInput(BaseModel):
         if not stripped:
             raise ValueError("must be a non-empty string")
         return stripped
-
-    @field_validator("role")
-    @classmethod
-    def validate_role(cls, value: str) -> str:
-        if value not in VALID_ROLES:
-            raise ValueError("must be 'Captain' or 'FirstOfficer'")
-        return value
-
-    @field_validator("hourly_cost", mode="before")
-    @classmethod
-    def validate_hourly_cost_type(cls, value: object) -> object:
-        if type(value) not in {int, float}:
-            raise ValueError("must be a number")
-        return value
 
     def to_domain(self) -> Crew:
         return Crew(
